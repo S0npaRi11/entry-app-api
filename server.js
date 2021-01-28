@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const express = require('express');
+const cors = require('cors');
 const database = require('./Configs/Database'); 
 
 
@@ -16,6 +17,7 @@ database()
 //app.use()'s
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors())
 
 
 // routes

@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema({
         default: Date.now
     },
     mobileNumber: {
-        type: Number,
+        type: String,
         required: true
     },
     firstName:{
