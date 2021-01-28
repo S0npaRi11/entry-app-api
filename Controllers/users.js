@@ -268,7 +268,7 @@ router.route('/login')
                     if(result){
                         const token = jwt.sign(user.toJSON(),process.env.JWT_SECRET_TOKEN,{expiresIn:'1h'});
 
-                        responce.result = token
+                        responce.result = [token,user]
                         responce.message = 'Authentication successful'
                         res.json(responce).status(200)
                     }else{
