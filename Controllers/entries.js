@@ -147,26 +147,48 @@ router.route('/:bookID/:entryID')
                 const entry = result.entries.find(o => o.id === req.params.entryID);
                 //minus the entry amount
                 entry.amount = -(entry.amount);
+                
+                // change the logic from using $pull, to using .filter Method
 
-                crud.update(books,{"$pull":{"entries": entry}},req.params.bookID).then(() => {
-
-                    // update the values after deleting the entty
-                    if(entry.type === 'received') result.totalReceived = eval.step(result.totalReceived, entry.amount)
-                    else if(entry.type === 'paid') result.totalPaid = eval.step(result.totalPaid, entry.amount)
-                    else if(entry.type === 'dept') result.totalDept = eval.step(result.totalDept, entry.amount)
-                    else{
-                        const err = errorHandler.error400()
-                        res.json(err).status(err.code);  
-                    }
-
-                    // save the book with updated values
-                    crud.save(books, result).then(result => {
-                        responce.result = result,
-                        responce.message = `Entry deleted`
-                        res.json(responce).status(200);
-    
-                    })
-                })
+//                 crud.update(books,{"$pull":{"entries": entry}},req.params.bookID).then(() => {
+// 
+//                     // update the values after deleting the entty
+//                     if(entry.type === 'received') result.totalReceived = eval.step(result.totalReceived, entry.amount)
+//                     else if(entry.type === 'paid') result.totalPaid = eval.step(result.totalPaid, entry.amount)
+//                     else if(entry.type === 'dept') result.totalDept = eval.step(result.totalDept, entry.amount)
+//                     else{
+//                         const err = errorHandler.error400()
+//                         res.json(err).status(err.code);  
+//                     }
+// 
+//                     // save the book with updated values
+//                     crud.save(books, result).then(result => {
+//                         responce.result = result,
+//                         responce.message = `Entry deleted`
+//                         res.json(responce).status(200);
+//     
+//                     })
+//                 })
+                
+                // first, filter the found entry from the result.entries array and save back to it
+                result.entries = result.entries.filter((entry) => entry.id !== req.params.entryID)
+                
+                // then perform the calculations
+                 if(entry.type === 'received') result.totalReceived = eval.step(result.totalReceived, entry.amount)
+                else if(entry.type === 'paid') result.totalPaid = eval.step(result.totalPaid, entry.amount)
+                else if(entry.type === 'dept') result.totalDept = eval.step(result.totalDept, entry.amount)
+                else{
+                    const err = errorHandler.error400()
+                    res.json(err).status(err.code);  
+                }
+                
+                // then save the book
+                crud.save(books, result).then(result => {
+                         responce.result = result,
+                         responce.message = `Entry deleted`
+                         res.json(responce).status(200);
+     
+                     })
            }else{
                 const err = errorHandler.error404()
                 res.json(err).status(err.code);  
