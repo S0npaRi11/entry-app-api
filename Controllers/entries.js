@@ -151,9 +151,9 @@ router.route('/:bookID/:entryID')
                 crud.update(books,{"$pull":{"entries": entry}},req.params.bookID).then(() => {
 
                     // update the values after deleting the entty
-                    if(req.body.type === 'received') result.totalReceived = eval.step(result.totalReceived, entry.amount)
-                    else if(req.body.type === 'paid') result.totalPaid = eval.step(result.totalPaid, entry.amount)
-                    else if(req.body.type === 'dept') result.totalDept = eval.step(result.totalDept, entry.amount)
+                    if(entry.type === 'received') result.totalReceived = eval.step(result.totalReceived, entry.amount)
+                    else if(entry.type === 'paid') result.totalPaid = eval.step(result.totalPaid, entry.amount)
+                    else if(entry.type === 'dept') result.totalDept = eval.step(result.totalDept, entry.amount)
                     else{
                         const err = errorHandler.error400()
                         res.json(err).status(err.code);  
