@@ -126,7 +126,7 @@ router.route('/:bookID/:entryID')
                     responce.result = result.entries,
                     responce.message = 'Entry updated',
                     res.json(responce).status(200);
-                }).then(error => {
+                }).catch(error => {
                     const err = errorHandler.error500(error)
                     res.json(err).status(err.code);
                 })
@@ -174,7 +174,7 @@ router.route('/:bookID/:entryID')
                 result.entries = result.entries.filter((entry) => entry.id !== req.params.entryID)
                 
                 // then perform the calculations
-                 if(entry.type === 'received') result.totalReceived = eval.step(result.totalReceived, entry.amount)
+                if(entry.type === 'received') result.totalReceived = eval.step(result.totalReceived, entry.amount)
                 else if(entry.type === 'paid') result.totalPaid = eval.step(result.totalPaid, entry.amount)
                 else if(entry.type === 'dept') result.totalDept = eval.step(result.totalDept, entry.amount)
                 else{
