@@ -128,6 +128,7 @@ router.route('/:bookID/:entryID')
                     res.json(responce).status(200);
                 }).catch(error => {
                     const err = errorHandler.error500(error)
+                    err.additionalMessage = 'Error just before saving'
                     res.json(err).status(err.code);
                 })
             }else{
@@ -136,6 +137,7 @@ router.route('/:bookID/:entryID')
             }
         }).catch(error => {
             const err = errorHandler.error500(error)
+            err.additionalMessage = 'Error because of logic before saving'
             res.json(err).status(err.code);
         })
     })
