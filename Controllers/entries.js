@@ -124,7 +124,7 @@ router.route('/:bookID/:entryID')
 
                 crud.save(books,result).then(result => {
                     responce.result = result.entries,
-                    responce.message = 'Entry updated',
+                    responce.message = 'Entry updated', 
                     res.json(responce).status(200);
                 }).catch(error => {
                     const err = errorHandler.error500(error)
