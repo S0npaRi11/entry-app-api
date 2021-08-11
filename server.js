@@ -15,19 +15,18 @@ database()
 
 
 //app.use()'s
-app.use(cors({
-    origin: 'http://localhost:3000'
-}))
+// app.use(cors({
+//     origin: 'http://localhost:3000'
+// }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "[http://);
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept, auth-token"
-//   );
-//   next();
-// });
+app.all('/*', (req,res,next) => {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, auth-token")
+    res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE, OPTIONS")
+    
+    next();
+});
 app.use(useragent.express())
 
 
