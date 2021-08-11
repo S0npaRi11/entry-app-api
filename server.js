@@ -15,17 +15,19 @@ database()
 
 
 //app.use()'s
-app.use(cors())
+app.use(cors({
+    origin: '*'
+}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "[http://localhost:3000, http://localhost:3000/register]");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, auth-token"
-  );
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "[http://);
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, auth-token"
+//   );
+//   next();
+// });
 app.use(useragent.express())
 
 
