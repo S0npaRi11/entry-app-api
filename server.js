@@ -27,7 +27,7 @@ app.all('/*', (req,res,next) => {
     
     next();
 });
-app.use(useragent.express())
+// app.use(useragent.express())
 
 
 
